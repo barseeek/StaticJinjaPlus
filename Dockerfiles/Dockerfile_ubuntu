@@ -1,0 +1,12 @@
+FROM ubuntu
+RUN apt-get update && apt-get install -y python3 python3-pip git
+ARG SJP_COMMIT=main
+RUN [ ! -d "/opt/StaticJinjaPlus" ] && git clone https://github.com/MrDave/StaticJinjaPlus.git /opt/StaticJinjaPlus \
+&& cd /opt/StaticJinjaPlus && git checkout $SJP_COMMIT || echo "Directory already exists" 
+
+WORKDIR /opt/StaticJinjaPlus/
+RUN pip install --break-system-packages --no-cache-dir -r requirements.txt
+ARG TEMPLATE_FOLDER=templates
+ENV TEMPLATE_FOLDER=${TEMPLATE_FOLDER}
+COPY ./$TEMPLATE_FOLDER ./$TEMPLATE_FOLDER
+CMD sh -c "python3 main.py -w --srcpath ${TEMPLATE_FOLDER}"

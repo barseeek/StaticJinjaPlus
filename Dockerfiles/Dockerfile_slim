@@ -1,0 +1,14 @@
+FROM python:3.12-slim-bullseye
+
+RUN apt-get update && apt-get install -y git
+ARG SJP_COMMIT=main
+RUN [ ! -d "/StaticJinjaPlus" ] && git clone https://github.com/MrDave/StaticJinjaPlus.git /StaticJinjaPlus \
+&& cd /StaticJinjaPlus && git checkout $SJP_COMMIT || echo "Directory already exists" 
+WORKDIR /StaticJinjaPlus/
+RUN pip install --break-system-packages --no-cache-dir -r requirements.txt
+ARG TEMPLATE_FOLDER=templates
+ENV TEMPLATE_FOLDER=${TEMPLATE_FOLDER}
+COPY ./$TEMPLATE_FOLDER ./$TEMPLATE_FOLDER
+CMD sh -c "python main.py -w --srcpath ${TEMPLATE_FOLDER}"
+
+
