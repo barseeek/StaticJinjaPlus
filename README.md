@@ -182,17 +182,12 @@ Example render of `index.html`
 1. Убедитесь, что Docker установлен:
    - Если у вас еще не установлен Docker, загрузите и установите его с официального сайта Docker (https://www.docker.com/).
 
-2. Войдите в Docker Hub:
-    ```bash
-    docker login --username=your_dockerhub_username --password=your_dockerhub_password
-    ```
-
-3. Загрузите образ из Docker Hub (если это еще не сделано):
+2. Загрузите образ из Docker Hub (если это еще не сделано):
     ```bash
    docker pull barseeek/static-jinja-plus:tagname
    ```  
     
-4. Запустите контейнер:
+3. Запустите контейнер:
     ```bash
    cd /path/to/project_folder/
    docker run --rm -v "$(pwd)/templates:/WORKDIR/templates" -v "$(pwd)/output:/WORKDIR/build" barseeek/static-jinja-plus:tagname
@@ -202,7 +197,7 @@ Example render of `index.html`
    - `-v "$(pwd)/templates:/StaticJinjaPlus/templates"`: смонтируйте папку templates с вашего локального компьютера в контейнер, чтобы docker мог получить доступ к вашим шаблонам и ассетам.
    - `-v "$(pwd)/build:/StaticJinjaPlus/build"`: смонтируйте папку `build` с вашего локального компьютера в контейнер, чтобы вы могли получить результаты работы статического генератора сайтов.
    - `tagname` замените на один из [тэгов](https://hub.docker.com/repository/docker/barseeek/static-jinja-plus/tags) из Docker Hub.
-5. Проверка выходных данных:
+4. Проверка выходных данных:
 
     После запуска контейнера сгенерированные статические файлы будут доступны в папке `templates/build` (если StaticJinjaPlus использует стандартные настройки).
     Пример успешного вывода в консоль:
